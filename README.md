@@ -1,2 +1,2 @@
-# Path-Fininding-Visualiser-Project
+# Path-Finding-Visualiser-Project
 A project to display various path finding algorithms!
