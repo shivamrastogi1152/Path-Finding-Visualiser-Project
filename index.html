@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PathFinding Visualiser</title>
+    <title>PathFinder Visualiser</title>
     <link rel="stylesheet" href="style.css">
     <script src="js/p5.min.js"></script>
     <!-- <script src="js/p5.sound.min.js"></script> -->
@@ -12,7 +12,15 @@
 </head>
 <body>
     <!-- <canvas id="canvas" width="600" height="600"></canvas> -->
+    <nav class="nav">
+        Select any one of the algorithms and then click on run to visualise it! (The default algorithm is A* Search Algo)
+        <br>
+        You can also change the end point at any point before the algorithm terminates (The default end point is bottom-right square of the grid)
+        </br>
+    </nav>
     <div class="container"> 
+        <button class="dijsktra" id="dij">Dijsktra Algo</button>
+        <button class="astar" id="astar">A* Algo</button>
         <button class="button" id="btn">Run</button>
     </div>
     <script src="js/AStarSearch.js"></script>
