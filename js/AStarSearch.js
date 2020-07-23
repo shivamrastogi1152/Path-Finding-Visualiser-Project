@@ -11,7 +11,33 @@ var nosolution = false;
 var running = false;
 
 var button = document.getElementById("btn");
-button.addEventListener('click',()=>{running=true});
+button.addEventListener('click',()=>{
+    running=true
+    button.style.backgroundColor = 'red';
+});
+
+var dijbtn = document.getElementById('dij');
+var astarbtn = document.getElementById('astar');
+
+var rundij=false;
+var runastar=true;
+
+dijbtn.addEventListener('click',()=>{
+
+    dijbtn.style.backgroundColor='yellowgreen';
+    astarbtn.style.backgroundColor = 'white';
+
+    rundij=true;
+    runastar=false;
+})
+
+astarbtn.addEventListener('click',()=>{
+    astarbtn.style.backgroundColor='yellowgreen';
+    dijbtn.style.backgroundColor='white';
+
+    rundij=false;
+    runastar=true;
+})
 
 var start;
 var end;
@@ -90,15 +116,20 @@ function Remove(target,arr)
 }
 
 function heuristic(a,b)
-{
-    var diffX = a.i-b.i;
-    var diffY = a.j-b.j;
-    diffX*=diffX;
-    diffY*=diffY;
+{   
+    if(rundij) return 0;
 
-    var sum = diffX+diffY;
-    var h = Math.sqrt(sum); 
-    return h;
+    else 
+    {
+        var diffX = a.i-b.i;
+        var diffY = a.j-b.j;
+        diffX*=diffX;
+        diffY*=diffY;
+
+        var sum = diffX+diffY;
+        var h = Math.sqrt(sum); 
+        return h;
+    }
     // return 0;
 }
 
