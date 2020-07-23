@@ -5,7 +5,7 @@ var grid = new Array(cols);
 var openset = [];///Nodes yet to be evaluated
 var closedset = []; ///The nodes of set which have already been evaluated
 var w,h;
-var blockprobabilty = 0.1; 
+var blockprobabilty = 0.3; 
 var nosolution = false;
 
 var running = false;
