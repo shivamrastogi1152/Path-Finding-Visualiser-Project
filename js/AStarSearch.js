@@ -8,13 +8,22 @@ var w,h;
 var blockprobabilty = 0.3; 
 var nosolution = false;
 
+var stop = false;
+
 var running = false;
 
-var button = document.getElementById("btn");
+var button = document.getElementById("btn"); //Run Button
 button.addEventListener('click',()=>{
     running=true
     button.style.backgroundColor = 'red';
 });
+
+var resetbtn = document.getElementById("reset");
+var reset = false;
+
+// resetbtn.addEventListener('click',()=>{
+//     reset = true;
+// })
 
 var dijbtn = document.getElementById('dij');
 var astarbtn = document.getElementById('astar');
@@ -38,6 +47,17 @@ astarbtn.addEventListener('click',()=>{
     rundij=false;
     runastar=true;
 })
+
+// var slider = document.getElementById('slider')
+// var val = document.getElementById("val")
+
+// val.innerHTML = "Value: " + slider.value;
+
+// slider.oninput = ()=>{
+//     val.innerHTML = "Value: " + slider.value;
+//     blockprobabilty = slider.value/100;
+//     console.log(blockprobabilty)
+// }
 
 var start;
 var end;
@@ -64,10 +84,11 @@ function node(i,j)
         {
         fill(color);
         if(this.block) {
-            fill(0);
+            fill(128,128,128);
         }
         noStroke();
-        rect(this.i*w,this.j*h,w-1,h-1);
+        // strokeWeight(1)
+        rect(this.i*w,this.j*h,w-1,h-1,5);
         }
     }
 
@@ -175,7 +196,7 @@ function setup()
         y = event.pageY - Canvas.getBoundingClientRect().top;
 
         squareX = Math.floor(x/w);
-        squareY = Math.floor(y/h);
+        squareY = Math.floor(y/h)-1;
 
         start = grid[0][0];
         end = grid[squareX][squareY];
@@ -199,6 +220,22 @@ function setup()
 
     openset.push(start);
 
+    resetbtn.addEventListener('click',()=>{
+
+        start = grid[0][0];
+        end = grid[squareX][squareY];
+
+        start.block=false;
+        end.block=false;
+
+        closedset = [];
+        openset = [];
+        openset.push(start);
+
+        console.log("Reset Clicked")
+
+    })
+
 }
 
 function draw()
@@ -215,10 +252,11 @@ function draw()
         var currnode = openset[minFvaluevertex];    ///Current node will be the one which has lowst f value
 
         if(currnode == end)
-        {
+        {   
+            // alert("Path Found!");
             console.log("Path Found!");
-            noLoop();
-            alert("Path Found!");
+            // noLoop();
+            stop = true;
             // return;
             
         }
@@ -245,6 +283,8 @@ function draw()
                         tentativeGscore = currnode.g + Math.sqrt(2); 
                     }
                     else tentativeGscore= currnode.g+1;
+
+                    // tentativeGscore=0;
                     
                     ///If current neighbor is present in the openset it might be possible that already existing
                     /// Gscore for that neighbor is better than the path that we're currently following, so before
@@ -288,8 +328,10 @@ function draw()
     for(let i=0;i<cols;i++)
     {
         for(let j=0;j<rows;j++)
-        {
-            grid[i][j].show(color(255));
+        {   
+            if(grid[i][j]==end) grid[i][j].show(color(0,0,0))
+
+            else { grid[i][j].show(color(255)); }
         }
     }
 
@@ -316,16 +358,22 @@ function draw()
             path.push(temp.parent);
             temp = temp.parent;
         }
+
+        if(stop)
+        {   
+            alert("Path Found!");
+            noLoop();
+        }
     }
-    ///Path will be marked by blue color
-    // for(var i=0;i<path.length;i++)
-    // {
-    //     path[i].show(color(0,0,255));
-    // }
+    //Path will be marked by blue color
+    for(var i=0;i<path.length;i++)
+    {
+        path[i].show(color(0,0,255));
+    }
 
     noFill();
-    stroke(color(255,255,255));
-    strokeWeight(w/3);
+    stroke(color(0,0,0));
+    strokeWeight(w/4);
 
     beginShape();
     for(var i=0;i<path.length;i++)
